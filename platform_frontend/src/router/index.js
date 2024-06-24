@@ -20,7 +20,30 @@ const router = createRouter({
             name: 'index',
             component: () => import('@/views/IndexView.vue'),
             children:[
-
+                {
+                    path: '',
+                    name: 'index-content',
+                    component: () => import('@/views/content.vue'),
+                    children:[
+                        {
+                            path: '',
+                            name: 'doctorPanel',
+                            component: () => import('@/components/DoctorPanel.vue'),
+                        },
+                        {
+                            path: '/patients',
+                            name: 'patients',
+                            component: () => import('@/components/patients.vue'),
+                            children:[
+                                {
+                                    path: '/analyse',
+                                    name: 'analyse',
+                                    component: () => import('@/components/DoctorPanel.vue')
+                                }
+                            ]
+                        }
+                    ]
+                }
             ]
         }
     ]

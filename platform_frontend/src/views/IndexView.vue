@@ -84,11 +84,12 @@ function userLogout() {
             </el-menu>
           </el-scrollbar>
         </el-aside>
+
         <el-main class="main-content-page">
           <el-scrollbar style="height: calc(100vh - 55px)">
             <router-view v-slot="{ Component}">
               <transition name="el-fade-in-linear" mode="out-in">
-                <component :is="Component" style="height: 100%"></component>
+                <component :is="Component"></component>
               </transition>
             </router-view>
           </el-scrollbar>
