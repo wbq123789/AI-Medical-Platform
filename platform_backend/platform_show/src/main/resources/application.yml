@@ -1,1 +1,44 @@
-spring.application.name=platform_show
+spring:
+  application:
+    name: platform_show
+  datasource:
+    hikari:
+      idle-timeout: 60000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      minimum-idle: 5
+      maximum-pool-size: 20
+    url: jdbc:mysql://47.92.80.128:3306/platform
+    username: platform
+    password: DfErP7TFemMixE7f
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      database: 0
+      host: 47.92.80.128
+      port: 6379
+      username: dokihub
+      password: flying13579
+      lettuce:
+        pool:
+          min-idle: 2
+          max-idle: 10
+  security:
+    jwt:
+      key: 'my-platform-key'
+      expire: 72
+      limit:
+        base: 10
+        upgrade: 300
+        frequency: 30
+    filter:
+      order: -100
+  web:
+    flow:
+      period: 3
+      limit: 50
+      block: 30
+    cors:
+      origin: '*'
+      credentials: false
+      methods: '*'
