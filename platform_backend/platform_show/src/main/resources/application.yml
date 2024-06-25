@@ -1,5 +1,3 @@
-server:
-  port: 19999
 spring:
   application:
     name: platform_show

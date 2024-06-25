@@ -4,7 +4,7 @@ import {ref,reactive} from "vue"
 import Analyse from "@/components/analyse.vue";
 
 const data = reactive({
-  ID:1,
+  ID:1
 })
 
 const input = ref();
@@ -42,8 +42,9 @@ function search(){
 
 <style scoped>
 .area{
-  width: 80%;
-  height: 80%;
+
+  width: 90%;
+  height: 90%;
   background-color: #a8a8a8;
   border-radius: 8px;
   text-align: center;
@@ -54,6 +55,6 @@ function search(){
   align-items: center;
 }
 .dark .area{
-  background-color: #252525;
+  background-color: #353535;
 }
 </style>

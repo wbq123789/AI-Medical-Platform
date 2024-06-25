@@ -2,20 +2,13 @@
 import { logout,get} from '@/net'
 import router from "@/router";
 import {useStore} from "@/store";
-import {reactive, ref} from "vue";
+import {ref} from "vue";
 import {
-  ChatDotSquare,
-  HelpFilled,
-  Location,
-  Notification, ArrowRightBold, Aim, UserFilled, ZoomIn
+  ArrowRightBold, Aim, UserFilled, ZoomIn
 } from "@element-plus/icons-vue";
 
 const store = useStore();
 const loading= ref(true);
-const searchInput = reactive({
-  type:'1',
-  text:""
-})
 get('api/user/info',(data)=>{
   store.user=data
   loading.value=false
@@ -31,7 +24,14 @@ function userLogout() {
     <el-container style="height: 100%" v-if="!loading">
       <el-header class="main-content-header">
         <el-row>
-          <el-col :span="20" style="align-content: center"><el-image class="logo" src="src/assets/logo.svg"/></el-col>
+          <el-col :span="20" style="align-content: center;display: flex;justify-content: left">
+            <div style="align-content: center">
+              <el-image class="logo" src="src/assets/logo.svg"/>
+            </div>
+            <div style="width: 70%;align-content: center;margin-left: 15px;font-size: 23px">
+              基于AI的医疗平台
+            </div>
+          </el-col>
           <el-col :span="4" style="align-content: center">
             <div  class="user-info">
               <el-button @click="userLogout" divided>
@@ -84,12 +84,11 @@ function userLogout() {
             </el-menu>
           </el-scrollbar>
         </el-aside>
-
         <el-main class="main-content-page">
           <el-scrollbar style="height: calc(100vh - 55px)">
             <router-view v-slot="{ Component}">
               <transition name="el-fade-in-linear" mode="out-in">
-                <component :is="Component"></component>
+                <component :is="Component" style="height: 100%"></component>
               </transition>
             </router-view>
           </el-scrollbar>

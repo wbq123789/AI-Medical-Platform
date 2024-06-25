@@ -1,70 +1,80 @@
 <script setup>
-const patient = [
-  {
-    id: 1,
-    name: '张三',
-    availability: '95%',
-    completeness: '90%'
-  },
-  {
-    id: 1,
-    name: '张三',
-    availability: '95%',
-    completeness: '90%'
-  },
-  {
-    id: 1,
-    name: '张三',
-    availability: '95%',
-    completeness: '90%'
-  },
-  {
-    id: 1,
-    name: '张三',
-    availability: '95%',
-    completeness: '90%'
-  },
-  {
-    id: 1,
-    name: '张三',
-    availability: '95%',
-    completeness: '90%'
-  },
-  {
-    id: 1,
-    name: '张三',
-    availability: '95%',
-    completeness: '90%'
-  },
-  {
-    id: 1,
-    name: '张三',
-    availability: '95%',
-    completeness: '90%'
-  },
-  {
-    id: 1,
-    name: '张三',
-    availability: '95%',
-    completeness: '90%'
-  },
-]
+import {ref,reactive,onMounted} from "vue"
+import * as echarts from 'echarts/core';
+import {
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent
+} from 'echarts/components';
+import { BarChart } from 'echarts/charts';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([
+  TitleComponent,
+  TooltipComponent,
+  GridComponent,
+  LegendComponent,
+  BarChart,
+  CanvasRenderer
+]);
+const chartRef = ref(null);
+onMounted(()=>{
+  const myChart = echarts.init(chartRef.value);
+  let option;
+
+  option = {
+    title: {
+      text: '病人数据分析表'
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'shadow'
+      }
+    },
+    legend: {},
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'value',
+      boundaryGap: [0, 0.01]
+    },
+    yAxis: {
+      type: 'category',
+      data: ['数据可用性','完整度指标']
+    },
+    series: [
+      {
+        name: 'ID:1001',
+        type: 'bar',
+        data: ['30', '80']
+      }
+    ]
+  };
+
+  option && myChart.setOption(option);
+
+})
+const patient=reactive({
+  id:null,
+  dataUsability:0,
+  dataIntegrity:0
+})
 </script>
 
 <template>
-  <div class="analyse">
-    <div class="left" >
-      <el-table :data="patient" style="width: 100%" max-height="290">
-        <el-table-column prop="id" label="病人ID"/>
-        <el-table-column prop="name" label="姓名"/>
-        <el-table-column prop="availability" label="数据可用性"/>
-        <el-table-column prop="completeness" label="数据完整度"/>
-      </el-table>
+    <div class="analyse">
+        <div class="left" ref="chartRef">
+        </div>
+        <div class="right">
+          使用CNN模型预测结果为：80%高风险
+        </div>
     </div>
-    <div class="right">
-      使用CNN模型预测结果为：80%高风险
-    </div>
-  </div>
 </template>
 
 <style scoped>
@@ -77,17 +87,16 @@ const patient = [
 .left{
   width: 45%;
   height: 100%;
-  background-color: wheat;
+  background-color: #bfbfbf;
   border-radius: 10px;
+  align-content: center;
 }
 .right{
   width: 45%;
   height: 100%;
-  background-color: #b3dcff;
+  background-color: #bfbfbf;
+  font-size: 17px;
   border-radius: 10px;
-  text-align: center;
   align-content: center;
-  font-size: 20px;
-  font-weight: bolder;
 }
 </style>

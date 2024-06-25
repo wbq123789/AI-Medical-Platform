@@ -5,8 +5,8 @@
 <template>
   <div class="Option">
     <div style="text-align: center;font-weight: bold;font-size:30px;align-content: center;padding-top: 2% ">脑&nbsp;卒&nbsp;中</div>
-    <div style="margin-top: 3%" class="option-button">
-      <el-row :gutter="5">
+    <div class="option-button">
+      <el-row :gutter="5" style="padding: 3% 0">
         <el-col :span="3">
 
         </el-col>
@@ -24,21 +24,21 @@
         </el-col>
       </el-row>
     </div>
-    <el-divider class="divider"/>
   </div>
 </template>
 
 <style scoped>
-.divider{
-  border-style: outset;
-}
 .button{
   width: 60%;
   font-size: 15px;
 
 }
 .Option{
-  height: 23vh;
+  border-radius: 10px 10px 0 0;
+  background-color: #ffffff;
+}
+.dark .Option{
+  background-color: rgb(51, 51, 57);
 }
 .grid-content{
   text-align: center;
