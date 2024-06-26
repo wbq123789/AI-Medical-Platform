@@ -1,6 +1,12 @@
 <script setup>
 
 import OptionBar from "@/components/OptionBar.vue";
+import {useStore} from "@/store/index.js";
+import DoctorPanel from "@/components/DoctorPanel.vue";
+import AdminPanel from "@/components/AdminPanel.vue";
+
+const store = useStore().user.role;
+
 </script>
 
 <template>

@@ -57,7 +57,7 @@ public class SecurityConfiguration {
         return http
                 .authorizeHttpRequests(conf -> conf
                         .requestMatchers("/api/auth/**", "/error").permitAll()
-                        .anyRequest().hasAnyRole(Const.ROLE_DEFAULT)
+                        .anyRequest().hasAnyRole(Const.ROLE_DEFAULT,Const.ROLE_ADMINISTER)
                 )
                 .formLogin(conf -> conf
                         .loginProcessingUrl("/api/auth/login")

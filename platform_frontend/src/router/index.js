@@ -31,16 +31,14 @@ const router = createRouter({
                             component: () => import('@/components/DoctorPanel.vue'),
                         },
                         {
-                            path: '/patients',
+                            path: 'patients',
                             name: 'patients',
                             component: () => import('@/components/patients.vue'),
-                            children:[
-                                {
-                                    path: '/analyse',
-                                    name: 'analyse',
-                                    component: () => import('@/components/DoctorPanel.vue')
-                                }
-                            ]
+                        },
+                        {
+                            path:'admin',
+                            name:'adminPanel',
+                            component: () => import('@/components/AdminPanel.vue')
                         }
                     ]
                 }
@@ -59,5 +57,7 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
+
+
 
 export default router

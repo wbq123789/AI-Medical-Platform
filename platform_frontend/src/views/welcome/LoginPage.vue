@@ -11,9 +11,10 @@ const form = reactive({
   remember: false,
 })
 
+
 function userLogin(){
   login(form.username,form.password,form.remember,()=>{
-    router.push('/index')
+    router.push("/index")
   })
 }
 </script>

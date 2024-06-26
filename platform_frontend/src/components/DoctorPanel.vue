@@ -7,9 +7,15 @@ import { LineChart } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
 import { CanvasRenderer } from 'echarts/renderers';
 import {ref,onMounted,reactive} from "vue"
+import {useStore} from "@/store/index.js";
+import AdminPanel from "@/components/AdminPanel.vue";
 
 echarts.use([TitleComponent,GridComponent, LineChart, CanvasRenderer, UniversalTransition]);
 
+const editor=ref(false)
+function onTopicCreate() {
+  editor.value=false
+}
 const chartRef = ref(null);
 const model=reactive({
   type:'CNN',
@@ -43,6 +49,13 @@ onMounted(()=>{
 
   option && myChart.setOption(option);
 })
+
+const role = useStore().user.role
+
+function toPage(){
+  if(role==='user') router.push('/index/patients')
+  else router.push('/index/admin')
+}
 </script>
 
 <template>
@@ -62,7 +75,24 @@ onMounted(()=>{
       <div style="margin-top: 10px" class="block" ref="chartRef">
       </div>
       <div style="text-align: center;margin-bottom: 3%;width: 100%">
-        <el-button size="large" round type="info" style="width: 20%" @click="router.push('/patients')">去使用</el-button>
+        <el-button size="large" round type="info" style="width: 20%" @click="toPage" v-show="role==='user'">
+          去使用
+        </el-button>
+        <div class="adminButton" v-show="role==='admin'">
+          <el-row :gutter="5">
+            <el-col :span="12">
+              <el-button type="primary" @click="">
+                当前已有工作
+              </el-button>
+            </el-col>
+            <el-col :span="12">
+              <el-button type="primary" @click="editor=true">
+                发起新的工作
+              </el-button>
+            </el-col>
+          </el-row>
+          <AdminPanel :show="editor && role==='admin'" @success="onTopicCreate" @close="editor=false"></AdminPanel>
+        </div>
       </div>
   </div>
   </div>
