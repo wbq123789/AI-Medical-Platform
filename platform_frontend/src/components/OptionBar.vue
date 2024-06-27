@@ -4,7 +4,7 @@
 
 <template>
   <div class="Option">
-    <div style="text-align: center;font-weight: bold;font-size:30px;align-content: center;padding-top: 2% ">脑&nbsp;卒&nbsp;中</div>
+    <div style="text-align: center;font-weight: bold;font-size:30px;align-content: center;padding-top: 2% ">骨&nbsp;&nbsp;折</div>
     <div class="option-button">
       <el-row :gutter="5" style="padding: 3% 0">
         <el-col :span="3">
@@ -17,7 +17,7 @@
           <el-button class="button" type="primary">DNN</el-button>
         </el-col>
         <el-col :span="6" class="grid-content ep-bg-purple">
-          <el-button class="button" type="primary"></el-button>
+          <el-button class="button" type="primary">RNN</el-button>
         </el-col>
         <el-col :span="3">
 

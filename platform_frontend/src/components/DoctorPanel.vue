@@ -81,7 +81,7 @@ function toPage(){
         <div class="adminButton" v-show="role==='admin'">
           <el-row :gutter="5">
             <el-col :span="12">
-              <el-button type="primary" @click="">
+              <el-button type="primary" @click="router.push('/current')">
                 当前已有工作
               </el-button>
             </el-col>

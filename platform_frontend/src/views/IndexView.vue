@@ -59,7 +59,7 @@ function userLogout() {
                 <el-menu-item index="/index">
                   <template #title>
                     <el-icon><ZoomIn /></el-icon>
-                    脑卒中
+                    骨折
                   </template>
                 </el-menu-item>
                 <el-menu-item index="1-2">

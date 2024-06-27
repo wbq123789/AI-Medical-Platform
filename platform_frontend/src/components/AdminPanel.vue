@@ -1,5 +1,5 @@
 <script setup>
-import {Check, Document, Plus} from "@element-plus/icons-vue";
+import {Check, Document} from "@element-plus/icons-vue";
 
 const props = defineProps({
   show:Boolean
@@ -57,14 +57,7 @@ function submitTrain() {
         </el-row>
       </div>
       <div class="AdminButton">
-        <el-row :gutter="10">
-          <el-col :span="12">
-            <el-button type="success" :icon="Check" @click="submitTrain" plain round>发起个性化训练</el-button>
-          </el-col>
-          <el-col :span="12">
-            <el-button type="primary" :icon="Plus" @click="submitTrain" plain round>发起全局训练</el-button>
-          </el-col>
-        </el-row>
+        <el-button type="success" :icon="Check" @click="submitTrain" plain round size="large">发起一个新的模型训练</el-button>
       </div>
     </el-drawer>
   </div>
