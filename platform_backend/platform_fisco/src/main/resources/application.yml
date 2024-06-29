@@ -1,1 +1,6 @@
-spring.application.name=platform_fisco
+spring:
+  application:
+    name: platform_fisco
+
+server:
+  port: 8081

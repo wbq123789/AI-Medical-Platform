@@ -2,69 +2,26 @@
 
 import {ArrowRightBold} from "@element-plus/icons-vue";
 import router from "@/router/index.js";
+import {ref} from "vue";
+import {get} from '@/net'
 
-const tableData = [
+const tableData = ref([
   {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-06',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-07',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-08',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-06',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-07',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
+    agency_id: "",
+    file_id: "",
+    file_param: "",
+    round: "",
+    time: ""
+  }
+])
+
+function formContent(){
+  get('/api/fisco/getData?AgencyId=002',(data) => {
+    tableData.value = data;
+  })
+}
+
+formContent();
 
 const judge = true;
 
@@ -94,12 +51,12 @@ const judge = true;
         </el-row>
       </el-header>
       <el-main style="margin-top: 3%">
-        <div class="main-form">
+        <div class="main-form" v-if="!tableData.value">
           <el-table :data="tableData" height="600" style="width: 80%" >
-            <el-table-column prop="date" label="名称" align="center" style="height: 30px"/>
-            <el-table-column prop="name" label="时间" align="center"/>
-            <el-table-column prop="address" label="轮次" align="center"/>
-            <el-table-column prop="address" label="发起者" align="center"/>
+            <el-table-column prop="file_id" label="模型ID" align="center"/>
+            <el-table-column prop="time" label="时间" align="center"/>
+            <el-table-column prop="round" label="轮次" align="center"/>
+            <el-table-column prop="agency_id" label="发起机构ID" align="center"/>
             <el-table-column fixed="right" label="操作" min-width="120" align="center">
               <template #default>
                 <el-button link type="success" size="small" @click="" v-show="!judge">

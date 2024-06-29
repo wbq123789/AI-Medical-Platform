@@ -30,6 +30,7 @@ public class FileController {
 
     @GetMapping("/getData")
     public RestBean<List<transaction>> GetModel(@RequestParam String AgencyId) throws Exception {
+        System.out.println(AgencyId);
         if(AgencyId.equals("001")) {
             List<transaction> ret=new ArrayList<>();
             for(int i=2;i<6;i++) {
