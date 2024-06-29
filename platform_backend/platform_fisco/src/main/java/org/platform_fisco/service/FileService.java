@@ -47,16 +47,16 @@ public class FileService {
             processors.add(transactionProcessor);
         }
     }
-    public boolean insertFile(int Group_id,String Agency_id,String Content,int Round) throws Exception {
-        // 获取Client对象，此处传入的群组ID为1
-        // 构造AssembleTransactionProcessor对象，需要传入client对象，CryptoKeyPair对象和abi、binary文件存放的路径。abi和binary文件需要在上一步复制到定义的文件夹中。
-        CryptoKeyPair keyPair = clients.get(Group_id-1).getCryptoSuite().createKeyPair();
-        AssembleTransactionProcessor transactionProcessor = TransactionProcessorFactory.createAssembleTransactionProcessor(clients.get(Group_id-1), keyPair, "src/main/resources/abi/", "src/main/resources/bin/");
+    public boolean insertFile(int Group_id,int File_id,String File_param,String Agency_id,String Content,int Round) throws Exception {
+        //通过processor获取预先创建好的连接
+        AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
         // 创建调用交易函数的参数，此处为传入一个参数
         List<Object> params = new ArrayList<>();
         String MethodName="insert";
         params.add(Agency_id);
+        params.add(File_id);
+        params.add(File_param);
         params.add(Content);
         params.add(Round);
         params.add(0);
@@ -68,15 +68,16 @@ public class FileService {
         TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Group_id-1], MethodName, params);
         return Objects.equals(transactionResponse.getValues(), "1");
     }
-    public boolean insertFile(String Agency_id,String Content,int Round,int Reward) throws Exception {
-        // 构造AssembleTransactionProcessor对象，需要传入client对象，CryptoKeyPair对象和abi、binary文件存放的路径。abi和binary文件需要在上一步复制到定义的文件夹中。
-        CryptoKeyPair keyPair = clients.get(0).getCryptoSuite().createKeyPair();
-        AssembleTransactionProcessor transactionProcessor = TransactionProcessorFactory.createAssembleTransactionProcessor(clients.get(0), keyPair, "src/main/resources/abi/", "src/main/resources/bin/");
+    public boolean insertFile(String Agency_id,int File_id,String File_param,String Content,int Round,int Reward) throws Exception {
+        //通过processor获取预先创建好的连接(Agency1)
+        AssembleTransactionProcessor transactionProcessor = processors.get(0);
 
         // 创建调用交易函数的参数，此处为传入一个参数
         List<Object> params = new ArrayList<>();
         String MethodName="insert";
         params.add(Agency_id);
+        params.add(File_id);
+        params.add(File_param);
         params.add(Content);
         params.add(Round);
         params.add(Reward);
@@ -86,34 +87,34 @@ public class FileService {
         TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[0], MethodName, params);
         return Objects.equals(transactionResponse.getValues(), "1");
     }
-    public boolean updateReward(String Group_id,int Round,int Reward) throws Exception {
-        // 构造AssembleTransactionProcessor对象，需要传入client对象，CryptoKeyPair对象和abi、binary文件存放的路径。abi和binary文件需要在上一步复制到定义的文件夹中。
-        CryptoKeyPair keyPair = clients.get(Integer.parseInt(Group_id)-1).getCryptoSuite().createKeyPair();
-        AssembleTransactionProcessor transactionProcessor = TransactionProcessorFactory.createAssembleTransactionProcessor(clients.get(Integer.parseInt(Group_id)-1), keyPair, "src/main/resources/abi/", "");
+    public boolean updateReward(int Group_id,int File_id,int Round,int Reward) throws Exception {
+        //通过processor获取预先创建好的连接
+        AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
         // 创建调用交易函数的参数，此处为传入一个参数
         List<Object> params = new ArrayList<>();
         String MethodName="updateReward";
         params.add(Group_id);
+        params.add(File_id);
         params.add(Round);
         params.add(Reward);
-        TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Integer.parseInt(Group_id)-1], MethodName, params);
+        TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Group_id-1], MethodName, params);
         return true;
     }
-    public List<transaction> selectById(int group_id, String agency_id) throws Exception {
-        // 获取Client对象，此处传入的群组ID为1
-        // 构造AssembleTransactionProcessor对象，需要传入client对象，CryptoKeyPair对象和abi、binary文件存放的路径。abi和binary文件需要在上一步复制到定义的文件夹中。
-        CryptoKeyPair keyPair = clients.get(group_id-1).getCryptoSuite().createKeyPair();
-        AssembleTransactionProcessor transactionProcessor = TransactionProcessorFactory.createAssembleTransactionProcessor(clients.get(group_id-1), keyPair, "src/main/resources/abi/", "");
+    public List<transaction> selectById(int Group_id, String agency_id) throws Exception {
+        //通过processor获取预先创建好的连接
+        AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
         // 创建调用交易函数的参数，此处为传入一个参数
         List<Object> params = new ArrayList<>();
         String MethodName="selectById";
         params.add(agency_id);
-        TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[group_id-1],MethodName, params);
+        TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Group_id-1],MethodName, params);
         List<Object> object = transactionResponse.getReturnObject();
         List<transaction> transactions = new ArrayList<>();
         List<Object> id = List.of();
+        List<Object> file_id= List.of();
+        List<Object> file_param= List.of();
         List<Object> round= List.of();
         List<Object> reward= List.of();
         List<Object> time= List.of();
@@ -122,15 +123,19 @@ public class FileService {
              if (!array.isEmpty()){
                  switch (i){
                      case 0: id= (List<Object>) array.clone();
-                     case 1: round= (List<Object>) array.clone();
-                     case 2: reward= (List<Object>) array.clone();
-                     case 3: time= (List<Object>) array.clone();
+                     case 1: file_id= (List<Object>) array.clone();
+                     case 2: file_param= (List<Object>) array.clone();
+                     case 3: round= (List<Object>) array.clone();
+                     case 4: reward= (List<Object>) array.clone();
+                     case 5: time= (List<Object>) array.clone();
                  }
              }
         }
         for (int i = 0; i < id.size(); i++) {
             transactions.add(new transaction()
                     .setAgency_id((String) id.get(i))
+                    .setFile_id(file_id.get(i).toString())
+                    .setFile_param(file_param.get(i).toString())
                     .setRound(round.get(i).toString())
                     .setReward(reward.get(i).toString())
                     .setTime((String) time.get(i))
@@ -138,32 +143,30 @@ public class FileService {
         }
         return transactions;
     }
-    public List<Object> selectById_01(int group_id,String agency_id) throws Exception {
-        // 获取Client对象，此处传入的群组ID为1
-        // 构造AssembleTransactionProcessor对象，需要传入client对象，CryptoKeyPair对象和abi、binary文件存放的路径。abi和binary文件需要在上一步复制到定义的文件夹中。
-        CryptoKeyPair keyPair = clients.get(group_id-1).getCryptoSuite().createKeyPair();
-        AssembleTransactionProcessor transactionProcessor = TransactionProcessorFactory.createAssembleTransactionProcessor(clients.get(group_id-1), keyPair, "src/main/resources/abi/", "");
+    public List<Object> selectById_01(int Group_id,String agency_id) throws Exception {
+        //通过processor获取预先创建好的连接
+        AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
         // 创建调用交易函数的参数，此处为传入一个参数
         List<Object> params = new ArrayList<>();
         String MethodName="selectById";
         params.add(agency_id);
-        TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[group_id-1],MethodName, params);
-        StringBuilder builder = new StringBuilder();
+        TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Group_id-1],MethodName, params);
         return transactionResponse.getReturnObject();
     }
-    public Object selectByIdAndRound(int group_id,String agency_id,int Round) throws Exception {
-        CryptoKeyPair keyPair = clients.get(group_id-1).getCryptoSuite().createKeyPair();
-        AssembleTransactionProcessor transactionProcessor = TransactionProcessorFactory.createAssembleTransactionProcessor(clients.get(group_id-1), keyPair, "src/main/resources/abi/", "");
+    public Object selectByIdAndRound(int Group_id,String agency_id,int File_id,int Round) throws Exception {
+        //通过processor获取预先创建好的连接
+        AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
         // 创建调用交易函数的参数，此处为传入一个参数
         List<Object> params = new ArrayList<>();
         String MethodName="selectByIdAndRound";
         params.add(agency_id);
+        params.add(File_id);
         params.add(Round);
-        TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[group_id-1], MethodName, params);
+        TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Group_id-1], MethodName, params);
         List<Object> object = transactionResponse.getReturnObject();
-        return object.get(3);
+        return object.get(4);
     }
     public String getTotalTransactionCount(int Group_id){
         TotalTransactionCount transactionCount = clients.get(Group_id-1).getTotalTransactionCount();

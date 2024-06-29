@@ -14,6 +14,8 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class transaction {
     String agency_id;
+    String file_id;
+    String file_param;
     String round;
     String reward;
     String time;
