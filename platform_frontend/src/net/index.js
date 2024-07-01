@@ -99,4 +99,64 @@ function unauthorized() {
     return !takeAccessToken()
 }
 
-export { post, get, login, logout, unauthorized ,accessHeader}
+function getList(type,success, failure = defaultFailure){
+    get(`/api/fisco/getData?AgencyId=${type}`, (data)=>{
+        success(data)
+    })
+}
+
+function getModel(type1,type2,type3){
+    downloadModel(type1,type2,type3)
+}
+
+function downloadModel(AgencyId,File_id, Round) {
+    // 构造请求的URL
+    const url = new URL('http://localhost:8080/api/fisco/Model');
+    // 设置请求参数
+    url.searchParams.append('AgencyId', AgencyId);
+    url.searchParams.append('File_id', File_id);
+    url.searchParams.append('Round', Round);
+
+    // 发起fetch请求
+    fetch(url)
+        .then(response => {
+            // 确认请求成功
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob(); // 读取二进制数据
+        })
+        .then(blob => {
+            // 使用Blob构造可下载的URL
+            const url = window.URL.createObjectURL(blob);
+
+            // 创建一个<a>元素用于触发下载
+            const a = document.createElement('a');
+            a.style.display = 'none'; // 隐藏元素
+            a.href = url;  // 设置下载的URL
+            a.download = 'model.txt'; // 设置下载时的文件名
+            document.body.appendChild(a);  // 添加元素到页面中
+            a.click();  // 触发下载
+
+            // 清理：下载完成后，释放URL并移除<a>元素
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        })
+        .catch(error => {
+            console.error('Error during fetch:', error);
+        });
+}
+
+function getBlockAndTransactionNumber(type,success, failure = defaultFailure){
+    get(`/api/fisco/getBlockAndTransactionNumber?GroupId=${type}`, (data)=>{
+        success(data)
+    })
+}
+
+function getLength(type,success, failure = defaultFailure){
+    get(`/api/fisco/getLength?AgencyId=${type}`, (data)=>{
+        success(data)
+    })
+}
+
+export { post, get, login, logout, unauthorized ,accessHeader,getList,getModel,getBlockAndTransactionNumber,getLength}

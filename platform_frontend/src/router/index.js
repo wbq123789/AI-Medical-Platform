@@ -47,6 +47,10 @@ const router = createRouter({
             path:'/current',
             name:'currentTask',
             component:() => import('@/components/currentTask.vue')
+        },{
+            path:'/monitor',
+            name:'monitor',
+            component:() => import('@/components/index.vue')
         }
     ]
 })
