@@ -3,15 +3,28 @@ import {Search} from "@element-plus/icons-vue";
 import {ref,reactive} from "vue"
 import Analyse from "@/components/analyse.vue";
 
-const data = reactive({
-  ID:1
-})
+const data = [
+    {
+      ID:'001',
+      name:'王五'
+  },{
+    ID:'002',
+    name:'程三'
+  },{
+    ID:'003',
+    name:'方六'
+  }
+]
 
-const input = ref();
+const input = ref('');
 
 function search(){
-  if(input!=null){
-
+  if(input.value!=null){
+    data.forEach((param)=>{
+      if(param.ID===input.value){
+        input.value=param.name;
+      }
+    })
   }
 }
 </script>
@@ -29,7 +42,7 @@ function search(){
               </el-input>
             </el-col>
             <el-col :span="4" style="text-align: right">
-              <el-button type="success" plain @click="">查找此病人</el-button>
+              <el-button type="success" plain @click="search">查找此病人</el-button>
             </el-col>
           </el-row>
       </div>
@@ -42,7 +55,6 @@ function search(){
 
 <style scoped>
 .area{
-
   width: 90%;
   height: 90%;
   background-color: #a8a8a8;
