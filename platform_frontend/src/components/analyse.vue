@@ -9,8 +9,6 @@ import {
 } from 'echarts/components';
 import { BarChart } from 'echarts/charts';
 import { CanvasRenderer } from 'echarts/renderers';
-import {icons} from "@element-plus/icons-vue/global";
-import {Flag} from "@element-plus/icons-vue";
 
 echarts.use([
   TitleComponent,
@@ -78,10 +76,10 @@ const radio = ref(true)
         </div>
         <div class="right">
           <p>使用CNN模型预测结果为：80%高风险</p>
-          <el-radio-group v-model="radio">
-            <el-radio :value=true>准确·</el-radio>
-            <el-radio :value=false>不准确</el-radio>
-          </el-radio-group>
+<!--          <el-radio-group v-model="radio">-->
+<!--            <el-radio :value=true>准确·</el-radio>-->
+<!--            <el-radio :value=false>不准确</el-radio>-->
+<!--          </el-radio-group>-->
         </div>
     </div>
 </template>

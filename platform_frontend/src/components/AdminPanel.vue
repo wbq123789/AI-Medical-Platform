@@ -71,20 +71,20 @@ const textarea1 = ref('')
             />
           </el-col>
         </el-row>
-        <el-row style="justify-content: center">
-          <el-col :span="10">
-            <div style="margin:5px 0">
-              <el-Upload
-                  :show-file-list="false"
-                  :before-upload="beforeAvatarUpload"
-                  :on-success="uploadSuccess"
-                  :headers="accessHeader()"
-              >
-                <el-button style="width: 200px" size="large" round plain type="primary">上传模型</el-button>
-              </el-Upload>
-            </div>
-          </el-col>
-        </el-row>
+<!--        <el-row style="justify-content: center">-->
+<!--          <el-col :span="10">-->
+<!--            <div style="margin:5px 0">-->
+<!--              <el-Upload-->
+<!--                  :show-file-list="false"-->
+<!--                  :before-upload="beforeAvatarUpload"-->
+<!--                  :on-success="uploadSuccess"-->
+<!--                  :headers="accessHeader()"-->
+<!--              >-->
+<!--                <el-button style="width: 200px" size="large" round plain type="primary">上传模型</el-button>-->
+<!--              </el-Upload>-->
+<!--            </div>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
       </div>
       <div class="AdminButton">
         <el-button type="success" :icon="Check" @click="submitTrain" plain round size="large">发起一个新的模型训练</el-button>

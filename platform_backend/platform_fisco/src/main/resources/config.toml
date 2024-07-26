@@ -19,7 +19,7 @@ certPath = "conf"                           # The certification path
 # default load the GM SSL encryption privateKey from ${certPath}/gm/gmensdk.key
 
 [network]
-peers=["127.0.0.1:20200"]    # The peer list to connect
+peers=["121.40.113.42:20200"]    # The peer list to connect
 
 # AMOP configuration
 # You can use following two methods to configure as a private topic message sender or subscriber.

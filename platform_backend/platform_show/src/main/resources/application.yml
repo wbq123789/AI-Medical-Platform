@@ -18,8 +18,8 @@ spring:
       database: 0
       host: 47.92.80.128
       port: 6379
-      username: dokihub
-      password: flying13579
+      username: default
+      password: redis_PCpmaT
       lettuce:
         pool:
           min-idle: 2

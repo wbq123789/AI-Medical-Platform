@@ -19,11 +19,11 @@ import java.util.Objects;
 @Service
 public class FileService {
     private final String[] address= {
-            "0x99adfece32cab5beddfce607b4fe9f0efb68c36a",
-            "0xae850a94d6386c7ba01c25a71569b6f08dcf062b",
-            "0x1ecf754033848e87fb14656c37fc05794def836b",
-            "0x6d56a0009585d00b9afa5963431208f880f46ddd",
-            "0xa73bb13bd2f201c773e979262e25ea245bbae52f"
+            "0xdc1308c35e7816596af2ab0972f3a3df1f34582a",
+            "0xe6bd25c203de0befbf2853594b0f2a885f92fa93",
+            "0x688e7c4fa059f6511c8e037febb22dd56c37c8fb",
+            "0x0e0fbcdc9b18dd2896a2f506f9609b77235b4e8e",
+            "0x4cead5402ef6db6620557fb6208419509f627ebe"
     };
     public final String configFile ="platform_backend/platform_fisco/src/main/resources/config.toml";
     BcosSDK sdk;
