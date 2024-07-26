@@ -15,7 +15,13 @@ const router = createRouter({
                     component: () => import('@/views/welcome/LoginPage.vue')
                 }
             ]
-        }, {
+        },
+        {
+            path:'/ai-medical-platform',
+            name:'ai-medical-platform',
+            component:() => import('@/views/StartView.vue')
+        },
+        {
             path: '/index',
             name: 'index',
             component: () => import('@/views/IndexView.vue'),
