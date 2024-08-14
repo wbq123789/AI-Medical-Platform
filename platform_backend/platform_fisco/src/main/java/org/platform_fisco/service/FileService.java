@@ -19,11 +19,11 @@ import java.util.Objects;
 @Service
 public class FileService {
     private final String[] address= {
-            "0xdc1308c35e7816596af2ab0972f3a3df1f34582a",
-            "0xe6bd25c203de0befbf2853594b0f2a885f92fa93",
-            "0x688e7c4fa059f6511c8e037febb22dd56c37c8fb",
-            "0x0e0fbcdc9b18dd2896a2f506f9609b77235b4e8e",
-            "0x4cead5402ef6db6620557fb6208419509f627ebe"
+            "0x9aa88243edfb8f80ae4fb79d5ff56b7fb9122ba9",
+            "0xe05f71e8d7215717f0763e37aad89d71d313c2c4",
+            "0x424b77d344920244013e29ff6cf0f348985fb09f",
+            "0xb030f5e03bfb1513c0a6f38994ae94cf313e3adc",
+            "0x5ed14cf0c41d4bc45174f22c59d8be681106787d"
     };
     public final String configFile ="platform_backend/platform_fisco/src/main/resources/config.toml";
     BcosSDK sdk;
@@ -47,7 +47,8 @@ public class FileService {
             processors.add(transactionProcessor);
         }
     }
-    public boolean insertFile(int Group_id,int File_id,String File_param,String Agency_id,String Content,int Round) throws Exception {
+
+    public boolean insertFile(int Group_id,String Agency_id,String File_id,String File_param,String Content,int Round,int Reward) throws Exception {
         //通过processor获取预先创建好的连接
         AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
@@ -59,7 +60,7 @@ public class FileService {
         params.add(File_param);
         params.add(Content);
         params.add(Round);
-        params.add(0);
+        params.add(Reward);
         Date date=new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         params.add(dateFormat.format(date));
@@ -68,7 +69,7 @@ public class FileService {
         TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Group_id-1], MethodName, params);
         return Objects.equals(transactionResponse.getValues(), "1");
     }
-    public boolean insertFile(String Agency_id,int File_id,String File_param,String Content,int Round,int Reward) throws Exception {
+    public boolean insertFile(String Agency_id,String File_id,String File_param,String Content,int Round,int Reward) throws Exception {
         //通过processor获取预先创建好的连接(Agency1)
         AssembleTransactionProcessor transactionProcessor = processors.get(0);
 
@@ -87,19 +88,19 @@ public class FileService {
         TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[0], MethodName, params);
         return Objects.equals(transactionResponse.getValues(), "1");
     }
-    public boolean updateReward(int Group_id,int File_id,int Round,int Reward) throws Exception {
+    public boolean updateReward(int Group_id,String Agency_id,String File_id,int Round,int newReward) throws Exception {
         //通过processor获取预先创建好的连接
         AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
         // 创建调用交易函数的参数，此处为传入一个参数
         List<Object> params = new ArrayList<>();
         String MethodName="updateReward";
-        params.add(Group_id);
+        params.add(Agency_id);
         params.add(File_id);
         params.add(Round);
-        params.add(Reward);
+        params.add(newReward);
         TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Group_id-1], MethodName, params);
-        return true;
+        return Objects.equals(transactionResponse.getValues(), "1");
     }
     public List<transaction> selectById(int Group_id, String agency_id) throws Exception {
         //通过processor获取预先创建好的连接
@@ -118,7 +119,9 @@ public class FileService {
         List<Object> round= List.of();
         List<Object> reward= List.of();
         List<Object> time= List.of();
-        for (int i = 0; i <object.size() ; i++) {
+        if (object==null)
+            return transactions;
+        for (int i = 0; i <object.size();i++) {
              ArrayList<Object> array= (ArrayList<Object>) object.get(i);
              if (!array.isEmpty()){
                  switch (i){
@@ -143,7 +146,7 @@ public class FileService {
         }
         return transactions;
     }
-    public List<Object> selectById_01(int Group_id,String agency_id) throws Exception {
+    public ArrayList<Object> selectById_01(int Group_id,String agency_id) throws Exception {
         //通过processor获取预先创建好的连接
         AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
@@ -152,9 +155,13 @@ public class FileService {
         String MethodName="selectById";
         params.add(agency_id);
         TransactionResponse transactionResponse = transactionProcessor.sendTransactionAndGetResponseByContractLoader("File", address[Group_id-1],MethodName, params);
-        return transactionResponse.getReturnObject();
+        List<Object> object = transactionResponse.getReturnObject();
+        if (object==null)
+            return new ArrayList<>();
+        else
+            return (ArrayList<Object>) object.get(0);
     }
-    public Object selectByIdAndRound(int Group_id,String agency_id,int File_id,int Round) throws Exception {
+    public Object selectByIdAndRound(int Group_id,String agency_id,String File_id,int Round) throws Exception {
         //通过processor获取预先创建好的连接
         AssembleTransactionProcessor transactionProcessor = processors.get(Group_id-1);
 
@@ -175,6 +182,5 @@ public class FileService {
         String txSum = transactionCount.getTotalTransactionCount().getTxSum();
         int tx = Integer.parseInt(txSum.substring(2),16);
         return block+","+tx;
-        //return blockNumber+","+txSum;
     }
 }

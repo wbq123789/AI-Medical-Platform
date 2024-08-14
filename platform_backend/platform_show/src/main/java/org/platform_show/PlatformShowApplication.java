@@ -8,6 +8,7 @@ public class PlatformShowApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PlatformShowApplication.class, args);
+
     }
 
 }

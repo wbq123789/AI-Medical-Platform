@@ -80,6 +80,11 @@
             <artifactId>java-jwt</artifactId>
             <version>4.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.5.11</version>
+        </dependency>
         <!--    测试模块    -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -56,7 +56,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(conf -> conf
-                        .requestMatchers("/api/auth/**","/api/fisco/**", "/error").permitAll()
+                        .requestMatchers("/api/auth/**","/api/model/**","/api/fisco/**", "/error").permitAll()
                         .anyRequest().hasAnyRole(Const.ROLE_DEFAULT,Const.ROLE_ADMINISTER)
                 )
                 .formLogin(conf -> conf

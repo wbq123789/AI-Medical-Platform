@@ -20,7 +20,7 @@ const chartRef = ref(null);
 const model=reactive({
   type:'CNN',
   time: new Date().toLocaleString(),
-  agency:'襄阳中心医院',
+  agency:'**中心医院',
   evaluate:'良好'
 })
 
@@ -41,7 +41,7 @@ onMounted(()=>{
     },
     series: [
       {
-        data: [150, 230, 224, 218, 135, 147, 260],
+        data: [78,83,88,76,79,90,80],
         type: 'line'
       }
     ]

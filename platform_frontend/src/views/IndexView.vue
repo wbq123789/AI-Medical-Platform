@@ -2,12 +2,14 @@
 import { logout,get} from '@/net'
 import router from "@/router";
 import {useStore} from "@/store";
+import {useDark} from "@vueuse/core";
 import {ref} from "vue";
 import {
-  ArrowRightBold, Aim, UserFilled, ZoomIn
+  ArrowRightBold, Aim, UserFilled, ZoomIn, Moon, Sunny
 } from "@element-plus/icons-vue";
 
 const store = useStore();
+const dark=ref(useDark())
 const loading= ref(true);
 get('api/user/info',(data)=>{
   store.user=data
@@ -29,11 +31,15 @@ function userLogout() {
               <el-image class="logo" src="src/assets/logo.svg"/>
             </div>
             <div style="width: 70%;align-content: center;margin-left: 15px;font-size: 23px">
-              基于AI的医疗平台
+              链医联邦-隐私保护的多机构鲁棒医疗数据联邦系统
             </div>
           </el-col>
           <el-col :span="4" style="align-content: center">
             <div  class="user-info">
+              <el-switch style="margin: 0 20px"
+                         v-model="dark" active-color="#424242"
+                         :active-action-icon="Moon"
+                         :inactive-action-icon="Sunny"/>
               <el-button @click="userLogout" divided>
                 <el-icon><ArrowRightBold /></el-icon>
                 退出系统

@@ -17,12 +17,24 @@ const data = [
 ]
 
 const input = ref('');
+const show=reactive({
+  show:false,
+  loading:false,
+  result: ""
+})
+
 
 function search(){
   if(input.value!=null){
     data.forEach((param)=>{
       if(param.ID===input.value){
         input.value=param.name;
+        show.loading=true
+        setTimeout(()=>{
+          show.loading=false
+          show.result="骨折类型——闭合型骨折"
+          show.show=true
+        }, 5000)
       }
     })
   }
@@ -47,7 +59,7 @@ function search(){
           </el-row>
       </div>
       <div style="height: 70%">
-        <analyse/>
+        <analyse v-loading="show.loading" element-loading-text="预测中，请稍等..." :showing="show.show" :result="show.result"/>
       </div>
     </div>
   </div>

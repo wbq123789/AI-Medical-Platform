@@ -3,12 +3,11 @@
     模型运行情况
   </div>
   <div style="text-align: center;">
-    <el-table :data="filteredTableData" style="width: 100%" size="large">
+    <el-table :default-sort="{ prop: 'round', order: 'descending' }" :data="filteredTableData" style="width: 100%" size="large">
       <el-table-column label="机构ID" prop="agency_id" />
-      <el-table-column label="模型ID" prop="file_id" />
-      <el-table-column label="轮次" prop="round" />
-      <el-table-column label="激励值" prop="reward" />
-      <el-table-column label="时间" prop="time" />
+      <el-table-column label="模型ID" sortable show-overflow-tooltip prop="file_id" />
+      <el-table-column label="模型参数" show-overflow-tooltip prop="file_param"/>
+      <el-table-column label="时间" sortable prop="time" />
       <el-table-column align="right">
         <template #header>
           <el-input v-model="search" size="small" placeholder="Type to search" />

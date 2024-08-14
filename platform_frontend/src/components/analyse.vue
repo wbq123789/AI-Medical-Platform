@@ -1,85 +1,21 @@
 <script setup>
-import {ref,reactive,onMounted} from "vue"
-import * as echarts from 'echarts/core';
-import {
-  TitleComponent,
-  TooltipComponent,
-  GridComponent,
-  LegendComponent
-} from 'echarts/components';
-import { BarChart } from 'echarts/charts';
-import { CanvasRenderer } from 'echarts/renderers';
-
-echarts.use([
-  TitleComponent,
-  TooltipComponent,
-  GridComponent,
-  LegendComponent,
-  BarChart,
-  CanvasRenderer
-]);
-const chartRef = ref(null);
-onMounted(()=>{
-  const myChart = echarts.init(chartRef.value);
-  let option;
-
-  option = {
-    title: {
-      text: '病人数据分析表'
-    },
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow'
-      }
-    },
-    legend: {},
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true
-    },
-    xAxis: {
-      type: 'value',
-      boundaryGap: [0, 0.01]
-    },
-    yAxis: {
-      type: 'category',
-      data: ['数据可用性','完整度指标']
-    },
-    series: [
-      {
-        name: 'ID:1001',
-        type: 'bar',
-        data: ['30', '80']
-      }
-    ]
-  };
-
-  option && myChart.setOption(option);
-
+const  props=defineProps({
+  showing:Boolean,
+  result:String
 })
-const patient=reactive({
-  id:null,
-  dataUsability:0,
-  dataIntegrity:0
-})
-
-
-const radio = ref(true)
 </script>
 
 <template>
     <div class="analyse">
-        <div class="left" ref="chartRef">
+        <div class="left">
+          <div v-if="showing">
+            <img height="300" src="@/assets/picture.png" alt="骨折图片">
+          </div>
+          <el-empty v-else description="请输入病人ID进行检测"/>
         </div>
         <div class="right">
-          <p>使用CNN模型预测结果为：80%高风险</p>
-<!--          <el-radio-group v-model="radio">-->
-<!--            <el-radio :value=true>准确·</el-radio>-->
-<!--            <el-radio :value=false>不准确</el-radio>-->
-<!--          </el-radio-group>-->
+          <div>使用CNN模型预测结果为：</div>
+          <div v-if="showing">{{ props.result }}</div>
         </div>
     </div>
 </template>

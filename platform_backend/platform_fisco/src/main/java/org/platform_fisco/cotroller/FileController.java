@@ -3,15 +3,12 @@ package org.platform_fisco.cotroller;
 import jakarta.annotation.Resource;
 import org.platform_fisco.entity.RestBean;
 import org.platform_fisco.entity.transaction;
+import org.platform_fisco.entity.vo.request.UploadModel;
+import org.platform_fisco.entity.vo.request.updateReward;
 import org.platform_fisco.service.FileService;
 import org.platform_fisco.utils.JsonUtil;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,22 +39,20 @@ public class FileController {
             return RestBean.success(transactions);
         }
     }
-
+    @PostMapping("/uploadModel")
+    public RestBean<Void> update(@RequestBody UploadModel vo) throws Exception {
+        boolean result = service.insertFile(Integer.parseInt(vo.getGroup_id()),vo.getAgency_id(),vo.getFile_id(),vo.getFile_param(),vo.getFile_content(),vo.getRound(),vo.getReward());
+        return Boolean.TRUE== result ? RestBean.success() : RestBean.failure(401,"文件上传失败");
+    }
+    @PostMapping("updateReword")
+    public RestBean<Void> updateReword(@RequestBody updateReward vo) throws Exception {
+        boolean result = service.updateReward(Integer.parseInt(vo.getAgency_id()),vo.getAgency_id(),vo.getFile_id(), vo.getRound(),vo.getReward());
+        return Boolean.TRUE== result ? RestBean.success() : RestBean.failure(401,"模型激励值更新失败");
+    }
     @GetMapping("/Model")
-    public ResponseEntity<byte[]> Model(@RequestParam String AgencyId,@RequestParam int File_id,@RequestParam String Round) throws Exception {
-        Object o = service.selectByIdAndRound(1,AgencyId,File_id,Integer.parseInt(Round));
-        String jsonData = JsonUtil.toJson(o);
-
-        //将JSON字符串转换为字节数组
-        byte[] contentBytes = jsonData.getBytes(StandardCharsets.UTF_8);
-
-        // 设置HTTP Headers
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8)); // 设置内容类型为JSON
-        headers.setContentDispositionFormData("attachment", "model.json"); // 将文件作为附件下载，并设置下载时的文件名为model.json
-
-        // 创建并返回ResponseEntity对象
-        return new ResponseEntity<>(contentBytes, headers, HttpStatus.OK);
+    public RestBean<String> Model(@RequestParam String Group_id,@RequestParam String Agency_id,@RequestParam String File_id,@RequestParam String Round) throws Exception {
+        Object o = service.selectByIdAndRound(Integer.parseInt(Group_id),Agency_id,File_id,Integer.parseInt(Round));
+        return RestBean.success(o.toString());
     }
 
     @GetMapping("/getBlockAndTransactionNumber")
@@ -68,7 +63,7 @@ public class FileController {
 
     @GetMapping("/getLength")
     public RestBean<String> getLength(@RequestParam String AgencyId) throws Exception {
-        List<transaction> transactions = service.selectById(1, AgencyId);
+        List<Object> transactions = service.selectById_01(Integer.parseInt(AgencyId), AgencyId);
         return RestBean.success(JsonUtil.toJson(transactions.size()));
     }
 }

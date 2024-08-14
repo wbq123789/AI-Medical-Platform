@@ -17,8 +17,8 @@ const router = createRouter({
             ]
         },
         {
-            path:'/ai-medical-platform',
-            name:'ai-medical-platform',
+            path:'/ai-medical-data-federal-system',
+            name:'ai-medical-data-federal-system',
             component:() => import('@/views/StartView.vue')
         },
         {
@@ -65,7 +65,7 @@ router.beforeEach((to, from, next) => {
     const isUnauthorized = unauthorized()
     if(to.name.startsWith('welcome') && !isUnauthorized) {
         next('/index')
-    } else if(to.fullPath.startsWith('/index') && isUnauthorized) {
+    } else if((to.fullPath.startsWith('/index') || to.fullPath.startsWith('/current')|| to.fullPath.startsWith('/monitor'))&& isUnauthorized) {
         next('/')
     } else {
         next()

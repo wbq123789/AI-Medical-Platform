@@ -3,12 +3,13 @@
     模型运行情况
   </div>
   <div style="text-align: center;">
-    <el-table :data="filteredTableData" style="width: 100%" size="large">
+    <el-table :default-sort="{ prop: 'round', order: 'descending' }" :data="filteredTableData" style="width: 100%" size="large">
       <el-table-column label="机构ID" prop="agency_id" />
-      <el-table-column label="模型ID" prop="file_id" />
-      <el-table-column label="轮次" prop="round" />
+      <el-table-column label="模型ID" sortable show-overflow-tooltip prop="file_id" />
+      <el-table-column label="模型参数" show-overflow-tooltip prop="file_param"/>
+      <el-table-column label="轮次" sortable prop="round" />
       <el-table-column label="激励值" prop="reward" />
-      <el-table-column label="时间" prop="time" />
+      <el-table-column label="时间" sortable prop="time" />
       <!-- 在el-table-column使用作用域插槽 -->
       <el-table-column align="right">
         <template #header>
@@ -42,9 +43,7 @@ const search = ref('')
 const tableData = ref<Transaction[]>([])
 
 const filteredTableData = computed(() => {
-  return search.value.trim() === ''
-      ? tableData.value
-      : tableData.value.filter((item) =>
+  return search.value.trim() === '' ? tableData.value : tableData.value.filter((item) =>
           Object.values(item).some((value) =>
               value.toLowerCase().includes(search.value.trim().toLowerCase())
           )
@@ -79,7 +78,7 @@ const doSomethingWithRoundData = (index) => {
 
 const open = (row, index) => {
   let str = doSomethingWithRoundData(index);
-  getModel(Group_id.ID,tableData.value[index].file_id,str);
+  getModel(Group_id.ID,Group_id.ID,tableData.value[index].file_id,str);
 };
 
 

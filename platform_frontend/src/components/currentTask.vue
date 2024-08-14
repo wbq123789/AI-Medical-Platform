@@ -16,14 +16,14 @@ const tableData = ref([
 ])
 
 function formContent(){
-  get('/api/fisco/getData?AgencyId=002',(data) => {
+  get('/api/fisco/getData?AgencyId=001',(data) => {
     tableData.value = data;
   })
 }
 
 formContent();
 
-const judge = true;
+const judge = false;
 
 </script>
 
@@ -37,7 +37,7 @@ const judge = true;
               <el-image class="logo" src="src/assets/logo.svg"/>
             </div>
             <div style="width: 70%;align-content: center;margin-left: 15px;font-size: 23px">
-              基于AI的医疗平台
+              链医联邦-隐私保护的多机构鲁棒医疗数据联邦系统
             </div>
           </el-col>
           <el-col :span="4" style="align-content: center">
@@ -65,12 +65,12 @@ const judge = true;
                 <el-button link type="primary" size="small" @click="" v-show="!judge">
                   加入全局
                 </el-button>
-                <el-button link type="success" size="small" @click="" v-show="judge">
-                  停止个性化
-                </el-button>
-                <el-button link type="primary" size="small" @click="" v-show="judge">
-                  停止全局
-                </el-button>
+<!--                <el-button link type="success" size="small" @click="" v-show="judge">-->
+<!--                  停止个性化-->
+<!--                </el-button>-->
+<!--                <el-button link type="primary" size="small" @click="" v-show="judge">-->
+<!--                  停止全局-->
+<!--                </el-button>-->
               </template>
             </el-table-column>
           </el-table>

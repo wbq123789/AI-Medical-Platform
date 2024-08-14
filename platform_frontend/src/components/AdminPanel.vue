@@ -1,8 +1,8 @@
 <script setup>
 import {Check, Document, Promotion} from "@element-plus/icons-vue";
 import {ref} from "vue"
-import axios from "axios";
-import {accessHeader} from "@/net/index.js";
+import {post} from "@/net/index.js";
+import {ElMessage} from "element-plus";
 
 const props = defineProps({
   show:Boolean
@@ -12,22 +12,14 @@ const emit=defineEmits(['close','success'])
 function initEditor() {
 
 }
-function submitTrain() {
+async function submitTrain() {
+post("api/model/startTraining",{
+  command: textarea1.value
+},data=>{
+  console.log(data)
+  ElMessage.success("模型已开始训练，请在区块链平台中查看训练详情!")
   emit('success')
-}
-function beforeAvatarUpload(rawFile) {
-  if(rawFile.type!=="image/jpeg"&&rawFile.type!=="image/png"){
-    ElMessage.error("头像格式只能为JPG/PNG")
-    return false
-  }else if(rawFile.size/1024>100){
-    ElMessage.error("头像不能大于 100KB")
-    return false
-  }
-  return true
-}
-function uploadSuccess(response) {
-  ElMessage.success("头像上传成功！")
-  store.user.avatar=response.data
+})
 }
 const textarea1 = ref('')
 </script>
@@ -47,44 +39,19 @@ const textarea1 = ref('')
           <div style="font-size: 13px">在这里你可以调整模型训练方式和模型参数</div>
         </div>
       </template>
-
       <div style="flex: 1;padding: 0 20px">
-        <el-row :gutter="50" style="align-items: center;text-align: center;justify-content: center">
-          <el-col :span="10">
-            <el-input placeholder="请输入模型ID" :prefix-icon="Document"
-            style="height: 100%" maxlength="40" />
-          </el-col>
-          <el-col :span="10">
-            <el-input placeholder="请输入模型训练最大轮次" :prefix-icon="Promotion"
-                      style="height: 100%" maxlength="40" />
-          </el-col>
-        </el-row>
         <el-row :gutter="10" style="margin-top: 10px;justify-content: center">
           <el-col :span="20">
             <el-input
                 v-model="textarea1"
                 style="height: 100%"
-                :autosize="{ minRows: 2}"
+                :autosize="{ minRows: 6}"
                 type="textarea"
                 :prefix-icon="Document"
                 placeholder="请输入模型训练参数"
             />
           </el-col>
         </el-row>
-<!--        <el-row style="justify-content: center">-->
-<!--          <el-col :span="10">-->
-<!--            <div style="margin:5px 0">-->
-<!--              <el-Upload-->
-<!--                  :show-file-list="false"-->
-<!--                  :before-upload="beforeAvatarUpload"-->
-<!--                  :on-success="uploadSuccess"-->
-<!--                  :headers="accessHeader()"-->
-<!--              >-->
-<!--                <el-button style="width: 200px" size="large" round plain type="primary">上传模型</el-button>-->
-<!--              </el-Upload>-->
-<!--            </div>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
       </div>
       <div class="AdminButton">
         <el-button type="success" :icon="Check" @click="submitTrain" plain round size="large">发起一个新的模型训练</el-button>

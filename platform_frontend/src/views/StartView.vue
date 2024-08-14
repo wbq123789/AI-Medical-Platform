@@ -14,7 +14,7 @@ import router from "@/router/index.js";
                    style="width: 100%;" @click="router.push('/')">开始分析吧</el-button>
       </div>
       <div class="introduce-image">
-        <el-image src="Designer.png" fit="cover" style="border-radius: 10px;"></el-image>
+        <el-image src="Designer.jpeg" fit="cover" style="border-radius: 10px;"></el-image>
       </div>
     </div>
   </div>
@@ -34,7 +34,7 @@ import router from "@/router/index.js";
   .introduce-title {
     margin: 20px 0;
     text-align: center;
-    font-size: 25px;
+    font-size: 35px;
     font-weight: bold;
     color: #535353;
   }

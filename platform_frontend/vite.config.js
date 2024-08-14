@@ -23,6 +23,6 @@ export default defineConfig({
     }
   },
   server: {
-    open: '/ai-medical-platform',
+    open: '/ai-medical-data-federal-system',
   }
 })
